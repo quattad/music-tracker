@@ -1,4 +1,4 @@
-# STI ETF Tracker
+# Music Tracker
 
 Music Tracker is a server-side web application that will allow you to view information regarding your most-played songs, albums and artists by retreving data from the Spotify Web API.
 
