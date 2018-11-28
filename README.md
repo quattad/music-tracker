@@ -7,9 +7,14 @@ This project was built with JavaScript and Node.js.
 ### Table of Contents
 * [Prerequisites](#prerequisites)
 * [Tests](#tests)
+
 ### Prerequisites
 
-Please see requirements.txt file for full list of pre-requisites.
+Please see package.json for full list of npm requisites.
+
+### Organization
+
+* public - web root with all the public web pages. other files are located outside of this folder are not accessible to application user. 
 
 ### Tests
 
