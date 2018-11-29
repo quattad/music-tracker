@@ -9,7 +9,7 @@ var app = express();
 
 /* run server */
 var server = app.listen(8888, () => {
-    console.log("listening...")
+    console.log("listening on 8888...")
 });
 
 app.use(express.static('public'));
