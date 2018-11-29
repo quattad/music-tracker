@@ -42,3 +42,41 @@ CALL 2: to Spotify Accounts Service /api/token endpoint
 CALL 3: to manage requests to /refresh_token
 - generate new access token to issue if previous token has expired
 */ 
+
+/*
+Takes in specified length and generate random string containing allowed characters. 
+Not sure of function purpose at this point in time.
+*/
+var generateRandomString = function(length) {
+    var text = '';
+
+    // specify possible characters in the text
+    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    /*
+    Generate a random character from string of possible characters every loop, for number of iterations equal to possible characters.
+    charAt() method: returns first character of the string
+     */
+    for (var i = 0; i < length; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+
+    return text;
+};
+
+// Possibly to fetch current status of user authentication. Should research.
+var stateKey = 'spotify_auth_state';
+
+/* store app object returned by express function
+express() function is a top level function exported by express NodeJS module.
+*/
+var app = express()
+
+// create middleware function that will load files from within a given root directory. 
+app.use(express.static(__dirname + '/public'))
+
+// execute cors middleware
+app.use(cors());
+
+// execute cookieParser middleware
+app.use(cookieParser());
