@@ -23,10 +23,10 @@ var client_id = '930da2356b374ffca2da7903affee68f';
 var client_secret = '';
 
 // set redirect address after user authentication
-var redirect_uri = 'localhost:8888';
+var redirect_uri = 'http://localhost:8888/callback';
 
 // specify what the app should request for. in this case full name, profile image and email address.
-var scopes = /'user-read-private user-read-email'/;
+var scope = /'user-read-private user-read-email'/;
 
 /* 
 There should be a total of three calls to the Spotify Accounts Service.
@@ -72,11 +72,41 @@ express() function is a top level function exported by express NodeJS module.
 */
 var app = express()
 
+/* setup local server to listen for requests 
+delete before deploying */
+var server = app.listen(8888, () => {
+    console.log("listening on 8888...")
+});
+
 // create middleware function that will load files from within a given root directory. 
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + "/public"))
 
 // execute cors middleware
 app.use(cors());
 
 // execute cookieParser middleware
 app.use(cookieParser());
+
+
+/* Create routing method that calls a specified anonymous callback function that activates when application receives request to
+/login endpoint.
+Callback function redirects user to Spotify for authentication.
+Passes in client id, scope, redirect url and saves current state as a unique string. */
+app.get('/login', function(req, res) {
+    /* generateRandomString is used here! generate a unique string for state */
+    var state = generateRandomString(16);
+
+    /* stores in response a cookie with value of stateKey = 'spotify_auth_state' and generated unique string for state as above */
+    res.cookie(stateKey, state);
+
+    /* redirect to authentication page on Spotify Accounts Service.
+    This is CALL 1. */
+
+    res.redirect('https://accounts.spotify.com/authorize?' + querystring.stringify({
+        response_type : 'code',
+        client_id : client_id,
+        scope: scope,
+        redirect_uri: redirect_uri,
+        state:state
+    }));
+});
