@@ -20,7 +20,7 @@ var cookieParser = require('cookie-parser');
 var client_id = '930da2356b374ffca2da7903affee68f';
 
 //  possibly like a 'password'. maybe need to get info from Spotify Developer account. DO NOT PUSH THIS TO GIT.
-var client_secret = '233b53bb038342c7b9031ebc2ffe4319';
+var client_secret = '';
 
 // set redirect address after user authentication
 var redirect_uri = 'http://localhost:8888/callback';
