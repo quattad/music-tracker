@@ -20,7 +20,7 @@ var cookieParser = require('cookie-parser');
 var client_id = '930da2356b374ffca2da7903affee68f';
 
 //  possibly like a 'password'. maybe need to get info from Spotify Developer account. DO NOT PUSH THIS TO GIT.
-var client_secret = '';
+var client_secret = '233b53bb038342c7b9031ebc2ffe4319';
 
 // set redirect address after user authentication
 var redirect_uri = 'http://localhost:8888/callback';
@@ -93,6 +93,10 @@ app.use(cookieParser());
 Callback function redirects user to Spotify for authentication.
 Passes in client id, scope, redirect url and saves current state as a unique string. */
 app.get('/login', function(req, res) {
+
+    // TO DEL
+    console.log('Successfully loaded /login');
+
     /* generateRandomString is used here! generate a unique string for state */
     var state = generateRandomString(16);
 
@@ -109,4 +113,130 @@ app.get('/login', function(req, res) {
         redirect_uri: redirect_uri,
         state:state
     }));
+});
+
+/* Create routing method with endpoint /callback. Request refresh and access tokens after checking state perimeter.
+This is CALL 2.
+*/ 
+app.get('/callback', function(req, res) {
+
+    // TO DEL
+    console.log('Successfully loaded /callback');
+
+    /* req.query is an object containing a property for each query string parameter in the browser.
+    e.g. GET /search?q=tobi+ferret; req.query.q => "tobi ferret"
+    e.g. GET /shoes?order=desc; req.query.order => "desc"
+    */
+
+    // extract query string parameter 'code' from url
+    var code = req.query.code || null;
+    
+    // extract query string parameter 'state' from url
+    var state = req.query.state || null;
+    
+    /* req.cookies is a property that contains cookies sent by request.
+    if request object contains no cookies, it defaults to {} */ 
+    var storedState = req.cookies ? req.cookies[stateKey] : null;
+
+    /* 
+    check if unsuccessful query was returned or if state is different from the currently stored state.
+    should come back to dissect, currently not so clear 
+    */ 
+    if (state === null || state !== storedState) {
+        res.redirect('/#' + querystring.stringify(
+            {error:'state_mismatch'}
+        ))
+    }
+    
+    else {
+        // TO DEL
+        console.log('No state_mismatch. State != NULL and State === storedState');
+        
+        /*res.clearCookie method clears cookie from respones object specified by stateKey
+        stateKey is therefore to generate a unique name for the cookie in each session (?) */
+        res.clearCookie(stateKey);
+
+        /* authOptions is a JSON object that contains required parameters grant_type, code and redirect_uri.
+        Will be passed in POST request to '/api/token' endpoint.
+       
+        REQUEST BODY PARAMETERS
+        grant_type - must contain value 'authorization_code' as specified in OAuth 2.0 specification
+        code - authorization code returned from initial request to /authorize endpoint .see '/login' routing method
+        redirect_uri - no actual redirection takes place. value of parameter is only used for validation 
+        
+        HEADER PARAMETERS
+        authorization - base 64 encoded string with client ID and client secret key with specified format.
+        Further info: https://developer.spotify.com/documentation/general/guides/authorization-guide/
+        */
+        var authOptions = {
+            url: 'https://accounts.spotify.com/api/token',
+            form: {
+                code:code,
+                redirect_uri:redirect_uri,
+                grant_type: 'authorization_code'
+            },
+            headers: {
+                'Authorization': 'Basic ' + (Buffer.from(client_id + ':' + client_secret).toString('base64'))
+            },
+            json:true
+        };
+
+      // POST request to Spotify Accounts service to submit authOptions and
+      // receive access_token and refresh_token 
+      request.post(authOptions, function(error, response, body){
+        
+        // TO DEL
+        console.log('Execute POST request to /api/token...');
+
+        if (!error && response.statusCode === 200) {
+
+            // TO DEL
+            console.log('No error and response is OK');
+
+            var access_token = body.access_token
+            var refresh_token = body.refresh_token
+            
+            console.log('access_token is ' + access_token);
+            console.log('refresh_token is ' + refresh_token);
+
+            var options = {
+                url:'https://api.spotify.com/v1/me',
+                headers: {
+                    'Authorization':'Bearer' + access_token},
+                json: true
+                };
+
+            // use access token to access Spotify Web API
+            request.get(options, function(error, response, body){
+                // prints content of body to the console.
+                // why?
+                console.log(body);
+            });
+            
+            /* 
+            alternatively pass token to browser to make requests accordingly
+            querystring.stringify serializes object into URL query string
+            general form: querystring.stringify(obj[, sep[, eq[, options]]])
+            obj - object to be serialized
+            sep - substring to delimit key value pairs in query string. default: &
+            eq - substring used to delimit keys and values in query string. default: =
+            options - encodeURIComponent <function> where
+            <function> is used when converting URL-unsafe characters to % encoding.
+            <function> default: querystring.escape()
+            */
+            res.redirect('/#' + querystring.stringify({
+                access_token: access_token,
+                refresh_token: refresh_token
+            }));
+            } else {
+                console.log('Error generated or statusCode not 200!')
+                res.redirect('/#' + 
+                querystring.stringify({
+                    error: 'invalid_token'
+                })
+                );
+            }
+        }
+    )
+    };
 });
