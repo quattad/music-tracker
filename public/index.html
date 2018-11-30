@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Music Tracker: Home</title>
+</head>
+
+<style type="text/css">
+#login, #loggedin {
+    display:block;
+}  /* currently hiding login elements */
+
+</style>
+
+<body>
+    <div id="login">
+        <h1>Login to Spotify!</h1>
+        <a href="/login" class = "btn btn-primary">Log In</a>
+    </div>
+    <div id="loggedin">
+    </div>
+
+    <script id="loggedin-template" type="text/x-handlebars-template">
+        <h1>Logged In As</h1>
+        <img id="avatar" width="200" src=""/>
+        <dl>
+            <dt>Display Name</dt><dd></dd>
+            <dt>Username</dt><dd></dd>
+            <dt>Email</dt><dd></dd>
+            <dt>Spotify URI</dt><dd></dd>
+            <dt>Link</dt><dd></dd>
+            <dt>Profile Image</dt><dd></dd>
+        </dl>
+        <p><a href="/">Log In Again</a></p>
+    </script>
+</body>
+</html>

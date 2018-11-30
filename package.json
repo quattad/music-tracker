@@ -1,0 +1,27 @@
+{
+  "name": "music-tracker",
+  "version": "1.0.0",
+  "description": "Web application built with Node.js and JavaScript.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quattad/music-tracker.git"
+  },
+  "author": "Jonathan Quah",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/quattad/music-tracker/issues"
+  },
+  "homepage": "https://github.com/quattad/music-tracker#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "querystring": "^0.2.0",
+    "request": "^2.88.0"
+  }
+}
