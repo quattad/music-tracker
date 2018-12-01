@@ -196,13 +196,14 @@ app.get('/callback', function(req, res) {
             var access_token = body.access_token
             var refresh_token = body.refresh_token
             
+            // TO DEL
             console.log('access_token is ' + access_token);
             console.log('refresh_token is ' + refresh_token);
 
             var options = {
                 url:'https://api.spotify.com/v1/me',
                 headers: {
-                    'Authorization':'Bearer' + access_token},
+                    'Authorization':'Bearer ' + access_token},  // watch out for spacing after Bearer. potential syntax problem
                 json: true
                 };
 
