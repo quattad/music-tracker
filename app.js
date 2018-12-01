@@ -20,7 +20,7 @@ var cookieParser = require('cookie-parser');
 var client_id = '930da2356b374ffca2da7903affee68f';
 
 //  possibly like a 'password'. maybe need to get info from Spotify Developer account. DO NOT PUSH THIS TO GIT.
-var client_secret = '';
+var client_secret = '233b53bb038342c7b9031ebc2ffe4319';
 
 // set redirect address after user authentication
 var redirect_uri = 'http://localhost:8888/callback';
@@ -240,3 +240,34 @@ app.get('/callback', function(req, res) {
     )
     };
 });
+
+
+// executed after access token has expired
+app.get('/refresh_token', function(req, res) {
+
+    // request access token from refresh token
+    var refresh_token = req.query.refresh_token;
+    var authOptions ={
+        url: 'https://accounts.spotify.com/api/token',
+        headers: {
+            'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+        },
+        form:{
+            grant_type: 'authorization_code',
+            
+            //refresh token here was obtained from authorization code exchange conducted when application requested access_token and refresh_token
+            refresh_token: refresh_token
+        },
+        json: true
+    };
+
+    // execute POST method to URL specified in authOptions. part of callback for /refresh_token
+    request.post(authOptions, function(error, response, body) {
+        if (!error && response.statusCode === 200) {
+            var access_token = body.access_token;
+            res.send({
+                'access_token': access_token
+            });  // close res.send
+        }  // close if
+    });  // close request.post
+});  // close app.get
