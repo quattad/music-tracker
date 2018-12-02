@@ -3,11 +3,17 @@
     <head>
         <title>Music Tracker: Home</title>
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        
         <style>
             @import url("/styles/main.css");
         </style>
+
+        <!-- External Scripts-->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     </head>
     
+
     <body>
         <div class = "container">
             <div id="login">
@@ -40,6 +46,26 @@
             </div>
         </script>
 
+        <script id="user-profile-template" type="text/x-handlebars-template">
+        <h1>Logged In As {{display_name}}</h1>
+            <div class ="media">
+                <div class = "pull-left">
+                    <img class = "media-object" width="150" src="{{images.0.url}}"/>
+                </div>
+                <div class = "media-body">
+                    <dl class = "dl-horizontal">
+                        <dt>Display Name</dt><dd class = "clearfix">{{display_name}}</dd>
+                        <dt>Id</dt><dd>{{id}}</dd>
+                        <dt>Email</dt><dd>{{email}}</dd>
+                        <dt>Spotify URI</dt><dd></dd>
+                        <dt>Link</dt><dd></dd>
+                        <dt>Profile Image</dt><dd class ="clearfix"><a href="{{images.0.url}}"></a>{{images.0.url}}</dd>
+                        <dt>Country</dt><dd>{{country}}</dd>
+                    </dl>
+                </div>
+            </div>
+        </script>
+
         <!-- oauth-template -->
         <script id="oauth-template" type="text/x-handlebars-template">
             <h2>OAuth Information</h2>
@@ -49,108 +75,8 @@
             </dl>
         </script>
 
-        <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
-        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-
-        <script>
-        (function () {
-            function getHashParams() {
-                    var hashParams = {};
-                    var e, r = /([^&;=]+)=?([^&;]*)/g,
-                     q = window.location.hash.substring(1);
-                    while ( e = r.exec(q)) {
-                        hashParams[e[1]] = decodeURIComponent(e[2]);
-                    }
-                    
-                    return hashParams;
-                };
-            
-                // Return innerHTML of user-profile-template element as an object to store in userProfileSource.
-                // Possibly will be used to modify something in the element later
-                var userProfileSource = document.getElementById('user-profile-template').innerHTML;
-            
-                /* 
-                Handlebars.compile compiles a template so it can be executed immediately.
-                Further info: https://handlebarsjs.com/reference.html
-                */
-                var userProfileTemplate = Handlebars.compile(userProfileSource);
-            
-                var userProfilePlaceholder = document.getElementById("user-profile");
-            
-                // see userProfileSource comments
-                var oauthSource = document.getElementById("oauth-template").innerHTML;
-            
-                // see userProfileTemplate comments
-                // Handlebars.compile returns a function? see call in else statement below
-                var oauthTemplate = Handlebars.compile(oauthSource);
-            
-                var oauthPlaceholder = document.getElementById("oauth");
-            
-                // obtain necessary parameters from URL. should be defined in the IIFE above
-                var params = getHashParams();
-            
-                // not sure why access_token needs to be obtained from the URL?
-                // why cannot be obtained from the /callback routing method in app.js?
-                var access_token = params.access_token;
-            
-                // see access_token
-                var refresh_token = params.refresh_token;
-            
-                var error = params.error;
-            
-                if (error) {
-                    alert('Error during authentication!');
-                } 
-                else {
-                    if (access_token) {
-                        // render oauth info if access_token is present
-                        // what this is doing is probably replacing the placeholders in 
-                        oauthPlaceholder.innerHTML = oauthTemplate({
-                            access_token: access_token,
-                            refresh_token: refresh_token
-                        });
-            
-                        $.ajax({
-                            url: 'https://api.spotify.com/v1/me',
-                            headers: {
-                                'Authorization': 'Bearer ' + access_token
-                            },
-                            success: function(response) {
-                                // TO DEL
-                                console.log("AJAX call to api.spotify.com/v1/me successful!")
-                                userProfilePlaceholder.innerHTML = userProfileTemplate(response);
-                                $('#login').hide();
-                                $('#loggedin').show();
-                            }  // close success function
-                        }); // close AJAX
-                    }  // close access_token if statement 
-                    
-                    else {
-                        // load initial screen before login
-                        $('#login').show();
-                        $('#loggedin').hide();
-                    }  // close else for access_token if statement
-
-                    document.getElementById('obtain-new-token').addEventListener('click', function() {
-
-                        // TO DEL
-
-                        console.log("obtain-new-token event listener activated!")
-                        $.ajax({
-                            url:'/refresh_token',
-                            data: {
-                                'refresh_token':refresh_token
-                            }
-                        }).done(function(data){
-                            access_token = data.access_token;
-                            oauthPlaceholder.innerHTML = oauthTemplate({
-                                access_token:access_token,
-                                refresh_token: refresh_token
-                            }); // close oauthTemplate call
-                        });  // close .done method call
-                    }, false);  // close addEventListener call. find out what false is for.
-                }  // close else for authentication check if statement
-            })();  // close IIFE
-        </script>
+        <!-- Import from ./scripts
+        Ideally should be refactored to <head> but doesnt load correctly when done -->
+        <script src ="./scripts/main.js"></script>
     </body>  
 </html>
