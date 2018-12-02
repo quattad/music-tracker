@@ -1,0 +1,16 @@
+/* Spotify Colour Palette : https://www.color-hex.com/color-palette/53188 */
+
+#login, #loggedin {
+    display:none;
+}  /* currently hiding login elements */
+
+.btn {
+    background-color:#212121;
+}
+
+.text-overflow {
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    width:500px;
+    }
