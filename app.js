@@ -20,7 +20,7 @@ var cookieParser = require('cookie-parser');
 var client_id = '930da2356b374ffca2da7903affee68f';
 
 //  possibly like a 'password'. maybe need to get info from Spotify Developer account. DO NOT PUSH THIS TO GIT.
-var client_secret = '233b53bb038342c7b9031ebc2ffe4319';
+var client_secret = '';
 
 // set redirect address after user authentication
 var redirect_uri = 'http://localhost:8888/callback';
@@ -70,23 +70,16 @@ var stateKey = 'spotify_auth_state';
 /* store app object returned by express function
 express() function is a top level function exported by express NodeJS module.
 */
-var app = express()
-
-/* setup local server to listen for requests 
-delete before deploying */
-var server = app.listen(8888, () => {
-    console.log("listening on 8888...")
-});
+var app = express();
 
 // create middleware function that will load files from within a given root directory. 
-app.use(express.static(__dirname + "/public"))
+app.use(express.static(__dirname + '/public'));
 
 // execute cors middleware
 app.use(cors());
 
 // execute cookieParser middleware
 app.use(cookieParser());
-
 
 /* Create routing method that calls a specified anonymous callback function that activates when application receives request to
 /login endpoint.
@@ -145,7 +138,7 @@ app.get('/callback', function(req, res) {
     if (state === null || state !== storedState) {
         res.redirect('/#' + querystring.stringify(
             {error:'state_mismatch'}
-        ))
+        ));
     }
     
     else {
@@ -193,8 +186,8 @@ app.get('/callback', function(req, res) {
             // TO DEL
             console.log('No error and response is OK');
 
-            var access_token = body.access_token
-            var refresh_token = body.refresh_token
+            var access_token = body.access_token;
+            var refresh_token = body.refresh_token;
             
             // TO DEL
             console.log('access_token is ' + access_token);
@@ -272,3 +265,6 @@ app.get('/refresh_token', function(req, res) {
         }  // close if
     });  // close request.post
 });  // close app.get
+
+console.log('Listening on 8888');
+app.listen(8888);
