@@ -3,16 +3,8 @@
     <head>
         <title>Music Tracker: Home</title>
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-        <style type="text/css">
-        #login, #loggedin {
-            display:none;
-            }  /* currently hiding login elements */
-        .text-overflow {
-            overflow:hidden;
-            text-overflow:ellipsis;
-            white-space:nowrap;
-            width:500px;
-            }
+        <style>
+            @import url("/styles/main.css");
         </style>
     </head>
     
@@ -20,7 +12,7 @@
         <div class = "container">
             <div id="login">
                 <h1>Login to Spotify!</h1>
-                <a href="/login" class = "btn btn-primary">Log In</a></div>
+                <a id = "login-button" href="/login" class = "btn btn-primary">Log In</a></div>
                 <div id="loggedin"></div>
                 <div id ="user-profile"> </div>
                 <div id="oauth"> </div>
