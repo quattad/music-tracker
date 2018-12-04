@@ -52,15 +52,19 @@ table {
 	border-spacing: 0;
 }
 
+/*
+===============================
+GRID
+===============================
+*/
 
-/* Jon CSS*/
-
-#login, #loggedin {
-    display:none;
-} 
-
-.btn {
-    background-color:#212121;
+/* Select all elements and change box-sizing to border-box */
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .text-overflow {
@@ -68,4 +72,154 @@ table {
     text-overflow:ellipsis;
     white-space:nowrap;
     width:500px;
-    }
+}
+
+.container {
+    margin:0 auto;
+    padding-left:30px;
+    padding-right:30px;
+    width:100%;
+    height:100%;
+    background-color:#434343;
+}
+
+#login, #loggedin {
+    display:none;
+} 
+
+
+/* 
+===============================
+HEADER
+===============================
+*/
+
+.container-header {
+    background-color:#000000;
+    height:100px;
+    position:relative;
+}
+
+.container-header-text {
+    padding-left:20px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display:inline-block;
+    position:absolute;
+    left:2%;
+    top:10%;
+    color:#ffffff;
+}
+
+.header-text-main {
+    font-weight:bold;
+    font-size:35px;
+    padding-top:5px;
+    padding-bottom:5px;
+}
+
+.header-text-sub {
+    font-size:20px;
+    padding-top:5px;
+    padding-bottom:5px;
+    letter-spacing:3.5px;
+}
+
+.container-header-nav {
+    display:inline-block;
+    position:absolute;
+    left:80%;  /* to push navigation bar all the way to the left. may not be the best way.*/
+    top:40%;
+    text-align: center;
+}
+
+.container-header-nav span {
+    font-weight:bold;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:#ffffff;
+    padding-left:20px;
+    padding-right:20px
+}
+
+.container-header-nav button {
+    padding-left:15px;  /* padding changes width of button*/
+    padding-right:15px;
+    margin-left:10px;
+}
+/* 
+===============================
+BODY
+===============================
+*/
+
+.container-body {
+    height:802px;
+}
+
+/* 
+===============================
+FOOTER
+===============================
+*/
+.container-footer {
+    background-color:#000000;
+    height:68px;
+    position:relative;
+}
+
+.container-footer-text {
+    padding-left:20px;
+    display:inline-block;
+    position:absolute;
+    left:2%;
+    top:40%;
+}
+
+.container-footer-text span {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:#ffffff;
+}
+
+.container-footer-logo {
+    display:inline-block;
+    left:85%;  /* to push navigation bar all the way to the left. may not be the best way.*/
+    position:absolute;
+    top:20%;
+}
+
+.container-footer-logo span {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:#ffffff;
+    font-weight:bold;
+    margin-left:5px;
+    margin-right:5px;
+}
+
+.container-footer-logo img{
+    vertical-align:middle;
+    max-height:120px;
+    max-width:120px;
+    margin-left:5px;
+    margin-right:5px;
+}
+/* 
+===============================
+HOME
+===============================
+*/
+
+
+/* 
+===============================
+BUTTONS
+===============================
+*/
+.btn {
+    background-color:#1db954;
+    border-radius:5px;
+    display:inline-block;
+    margin:0;
+    color:#ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 1px;
+    font-weight:bold;
+}

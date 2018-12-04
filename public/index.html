@@ -16,16 +16,36 @@
     
 
     <body>
-        <div class = "container">
+        
+        <!-- START HEADER -->
+        <div class="container container-header">
+            <header>
+                <div class="container-header-text">
+                    <div class = "header-text-main"><p>MUSIC TRACKER</p></div>
+                    <div class= "header-text-sub"><p>Your Music. Visualized.<p></div>
+                </div>
+                
+                <div class="container-header-nav">
+                    <span>HOME</span>
+                    <span>ABOUT</span>
+                    <button class = "btn btn-primary" id="login-nav">LOGIN</button>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <!-- END HEADER-->
+
+        <!-- START BODY -->
+        <div class ="container container-body">
             <div id="login">
-                <h1>Login to Spotify!</h1>
-                <a id = "login-button" href="/login" class = "btn btn-primary">Log In</a></div>
+                <a class="btn btn-primary" id="login-button" href="/login">LOGIN WITH SPOTIFY ACCOUNT</a>
                 <div id="loggedin"></div>
                 <div id ="user-profile"> </div>
                 <div id="oauth"> </div>
-                <button class="btn btn-primary" id="obtain-new-token">Obtain new token!</button>
+                <button class="btn btn-primary" id="obtain-new-token">OBTAIN NEW TOKEN</button>
             </div>
         </div>
+        <!-- END BODY -->
 
         <script id="user-profile-template" type="text/x-handlebars-template">
             <h1>Logged In As {{display_name}}</h1>
@@ -79,5 +99,18 @@
         <!-- Import from ./scripts
         Ideally should be refactored to <head> but doesnt load correctly when done -->
         <script src ="./scripts/main.js"></script>
+
+        <div class="container container-footer">
+            <footer>
+                <div class= "container-footer-text">
+                    <span>2018. Designed and Developed by Quattad.</span>
+                </div>
+                <div class= "container-footer-logo">
+                    <span>Powered By</span>
+                    <img src="/images/spotify-logo-green.png" href="www.spotify.com">
+                </div>
+            </footer>
+        </div>
+
     </body>  
 </html>
