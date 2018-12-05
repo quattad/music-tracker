@@ -70,23 +70,16 @@ var stateKey = 'spotify_auth_state';
 /* store app object returned by express function
 express() function is a top level function exported by express NodeJS module.
 */
-var app = express()
-
-/* setup local server to listen for requests 
-delete before deploying */
-var server = app.listen(8888, () => {
-    console.log("listening on 8888...")
-});
+var app = express();
 
 // create middleware function that will load files from within a given root directory. 
-app.use(express.static(__dirname + "/public"))
+app.use(express.static(__dirname + '/public'));
 
 // execute cors middleware
 app.use(cors());
 
 // execute cookieParser middleware
 app.use(cookieParser());
-
 
 /* Create routing method that calls a specified anonymous callback function that activates when application receives request to
 /login endpoint.
@@ -145,7 +138,7 @@ app.get('/callback', function(req, res) {
     if (state === null || state !== storedState) {
         res.redirect('/#' + querystring.stringify(
             {error:'state_mismatch'}
-        ))
+        ));
     }
     
     else {
@@ -193,16 +186,17 @@ app.get('/callback', function(req, res) {
             // TO DEL
             console.log('No error and response is OK');
 
-            var access_token = body.access_token
-            var refresh_token = body.refresh_token
+            var access_token = body.access_token;
+            var refresh_token = body.refresh_token;
             
+            // TO DEL
             console.log('access_token is ' + access_token);
             console.log('refresh_token is ' + refresh_token);
 
             var options = {
                 url:'https://api.spotify.com/v1/me',
                 headers: {
-                    'Authorization':'Bearer' + access_token},
+                    'Authorization':'Bearer ' + access_token},  // watch out for spacing after Bearer. potential syntax problem
                 json: true
                 };
 
@@ -240,3 +234,37 @@ app.get('/callback', function(req, res) {
     )
     };
 });
+
+
+// executed after access token has expired
+app.get('/refresh_token', function(req, res) {
+
+    // request access token from refresh token
+    var refresh_token = req.query.refresh_token;
+    var authOptions ={
+        url: 'https://accounts.spotify.com/api/token',
+        headers: {
+            'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+        },
+        form:{
+            grant_type: 'authorization_code',
+            
+            //refresh token here was obtained from authorization code exchange conducted when application requested access_token and refresh_token
+            refresh_token: refresh_token
+        },
+        json: true
+    };
+
+    // execute POST method to URL specified in authOptions. part of callback for /refresh_token
+    request.post(authOptions, function(error, response, body) {
+        if (!error && response.statusCode === 200) {
+            var access_token = body.access_token;
+            res.send({
+                'access_token': access_token
+            });  // close res.send
+        }  // close if
+    });  // close request.post
+});  // close app.get
+
+console.log('Listening on 8888');
+app.listen(8888);

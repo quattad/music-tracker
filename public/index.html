@@ -1,37 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Music Tracker: Home</title>
-</head>
+<!doctype html>
+<html>
+    <head>
+        <title>Music Tracker: Home</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        
+        <style>
+            @import url("/styles/main.css");
+        </style>
 
-<style type="text/css">
-#login, #loggedin {
-    display:block;
-}  /* currently hiding login elements */
+        <!-- External Scripts-->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="scripts/login.js"></script>
+    </head>
+    
 
-</style>
+    <body>
+        
+        <!-- START HEADER -->
+        <div class="container container-header">
+            <header>
+                <div class="container-header-text">
+                    <div class = "header-text-main"><p>MUSIC TRACKER</p></div>
+                    <div class= "header-text-sub"><p>Your Music. Visualized.<p></div>
+                </div>
+                
+                <div class="container-header-nav">
+                    <span>HOME</span>
+                    <span>ABOUT</span>
+                    <button class="btn btn-primary" id="login-nav" href="/login">LOGIN</button>
+                </div>
+            </header>
+        </div>
+        <!-- END HEADER-->
 
-<body>
-    <div id="login">
-        <h1>Login to Spotify!</h1>
-        <a href="/login" class = "btn btn-primary">Log In</a>
-    </div>
-    <div id="loggedin">
-    </div>
+        <!-- START BODY -->
+        <div class ="container container-body">
+            <div id="body"></div>
+        </div>
+        <!-- END BODY -->
 
-    <script id="loggedin-template" type="text/x-handlebars-template">
-        <h1>Logged In As</h1>
-        <img id="avatar" width="200" src=""/>
-        <dl>
-            <dt>Display Name</dt><dd></dd>
-            <dt>Username</dt><dd></dd>
-            <dt>Email</dt><dd></dd>
-            <dt>Spotify URI</dt><dd></dd>
-            <dt>Link</dt><dd></dd>
-            <dt>Profile Image</dt><dd></dd>
-        </dl>
-        <p><a href="/">Log In Again</a></p>
-    </script>
-</body>
+        <script id="user-profile-template" type="text/x-handlebars-template">
+            <h1>Logged In As {{display_name}}</h1>
+            <div class ="media">
+                <div class = "pull-left">
+                    <img class = "media-object" width="150" src="{{images.0.url}}"/>
+                </div>
+                <div class = "media-body">
+                    <dl class = "dl-horizontal">
+                        <dt>Display Name</dt><dd class = "clearfix">{{display_name}}</dd>
+                        <dt>Id</dt><dd>{{id}}</dd>
+                        <dt>Email</dt><dd>{{email}}</dd>
+                        <dt>Spotify URI</dt><dd></dd>
+                        <dt>Link</dt><dd></dd>
+                        <dt>Profile Image</dt><dd class ="clearfix"><a href="{{images.0.url}}"></a>{{images.0.url}}</dd>
+                        <dt>Country</dt><dd>{{country}}</dd>
+                    </dl>
+                </div>
+            </div>
+        </script>
+
+        <script id="user-profile-template" type="text/x-handlebars-template">
+        <h1>Logged In As {{display_name}}</h1>
+            <div class ="media">
+                <div class = "pull-left">
+                    <img class = "media-object" width="150" src="{{images.0.url}}"/>
+                </div>
+                <div class = "media-body">
+                    <dl class = "dl-horizontal">
+                        <dt>Display Name</dt><dd class = "clearfix">{{display_name}}</dd>
+                        <dt>Id</dt><dd>{{id}}</dd>
+                        <dt>Email</dt><dd>{{email}}</dd>
+                        <dt>Spotify URI</dt><dd></dd>
+                        <dt>Link</dt><dd></dd>
+                        <dt>Profile Image</dt><dd class ="clearfix"><a href="{{images.0.url}}"></a>{{images.0.url}}</dd>
+                        <dt>Country</dt><dd>{{country}}</dd>
+                    </dl>
+                </div>
+            </div>
+        </script>
+
+        <!-- oauth-template -->
+        <script id="oauth-template" type="text/x-handlebars-template">
+            <h2>OAuth Information</h2>
+            <dl class = "dl-horizontal">
+                <dt>Access Token</dt><dd class="text-overflow">{{access_token}}</dd>
+                <dt>Refresh Token</dt><dd class="text-overflow">{{refresh_token}}</dd>
+            </dl>
+        </script>
+
+        <!-- Import from ./scripts
+        Ideally should be refactored to <head> but doesnt load correctly when done -->
+        <script src ="./scripts/main.js"></script>
+
+        <div class="container container-footer">
+            <footer>
+                <div class= "container-footer-text">
+                    <span>2018. Designed and Developed by Quattad.</span>
+                </div>
+                <div class= "container-footer-logo">
+                    <span>Powered By</span>
+                    <img src="/images/spotify-logo-green.png" href="www.spotify.com">
+                </div>
+            </footer>
+        </div>
+
+    </body>  
 </html>
