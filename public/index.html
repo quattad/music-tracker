@@ -12,6 +12,7 @@
         <!-- External Scripts-->
         <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="scripts/login.js"></script>
     </head>
     
 
@@ -28,8 +29,7 @@
                 <div class="container-header-nav">
                     <span>HOME</span>
                     <span>ABOUT</span>
-                    <button class = "btn btn-primary" id="login-nav">LOGIN</button>
-                    </div>
+                    <button class="btn btn-primary" id="login-nav" href="/login">LOGIN</button>
                 </div>
             </header>
         </div>
@@ -37,13 +37,7 @@
 
         <!-- START BODY -->
         <div class ="container container-body">
-            <div id="login">
-                <a class="btn btn-primary" id="login-button" href="/login">LOGIN WITH SPOTIFY ACCOUNT</a>
-                <div id="loggedin"></div>
-                <div id ="user-profile"> </div>
-                <div id="oauth"> </div>
-                <button class="btn btn-primary" id="obtain-new-token">OBTAIN NEW TOKEN</button>
-            </div>
+            <div id="body"></div>
         </div>
         <!-- END BODY -->
 
